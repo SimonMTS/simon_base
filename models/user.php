@@ -65,10 +65,10 @@
 
         public static function findByName($name) {
             $db = db::init();
-
+            
             $col = $db->user;
 
-            $result = $col->findOne( [ 'name' => $name ] );
+            $result = $col->find( [ 'name' => $name ] );
 
             $post = [];
             foreach ($result as $doc) {
