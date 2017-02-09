@@ -29,11 +29,11 @@
                 default:
                     return false;
                     break;
-            } 
-            
+            }
+
             return false;
         }
-        
+
         public static function all() {
             $list = [];
             $db = Db::getInstance();
@@ -42,7 +42,7 @@
             foreach($req->fetchAll() as $user) {
                 $list[] = new User($user['id'], $user['name'], $user['password'], $user['role']);
             }
-            
+
             return $list;
         }
 
@@ -54,31 +54,45 @@
 
             $req->execute(array('id' => $id));
             $post = $req->fetch();
-            
+
             if (isset($post['id']) && isset($post['name']) && isset($post['password']) && isset($post['role'])) {
                 return new User($post['id'], $post['name'], $post['password'], $post['role']);
             } else {
                 return false;
             }
-            
+
         }
-        
+
         public static function findByName($name) {
-            $db = Db::getInstance();
+            $db = db::init();
 
-            $req = $db->prepare('SELECT * FROM user WHERE name = :name');
+            $col = $db->user;
 
-            $req->execute(['name' => $name]);
-            $post = $req->fetch();
+            $result = $col->findOne( [ 'name' => $name ] );
+
+            $post = [];
+            foreach ($result as $doc) {
+                $post[] = $doc;
+            }
+            echo'<pre>';
+            var_dump($post);
+            exit;
+            //
+            // $db = Db::getInstance();
+            //
+            // $req = $db->prepare('SELECT * FROM user WHERE name = :name');
+            //
+            // $req->execute(['name' => $name]);
+            // $post = $req->fetch();
 
             if (isset($post['id']) && isset($post['name']) && isset($post['password']) && isset($post['role'])) {
                 return new User($post['id'], $post['name'], $post['password'], $post['role']);
             } else {
                 return false;
             }
-            
+
         }
-        
+
         public function save() {
             if (self::find($this->id) == false) {
                 $db = Db::getInstance();
@@ -91,14 +105,14 @@
                     ':password' => $this->password,
                     ':role' => $this->role
                 ]);
-                
+
                 $_SESSION['user'] = [
                     'id' => $this->id,
                     'name' => $this->name,
                     'password' => $this->password,
                     'role' => $this->role,
                 ];
-                
+
                 return $succes;
             } else {
                 $db = Db::getInstance();
@@ -111,14 +125,14 @@
                     ':password' => $this->password,
                     ':role' => $this->role
                 ]);
-                
+
                 $_SESSION['user'] = [
                     'id' => $this->id,
                     'name' => $this->name,
                     'password' => $this->password,
                     'role' => $this->role,
                 ];
-                
+
                 return $succes;
             }
         }

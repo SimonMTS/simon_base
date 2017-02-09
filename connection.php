@@ -1,13 +1,9 @@
 <?php
-    class Db {
-        private static $instance = NULL;
-        
-        public static function getInstance() {
-            if (!isset(self::$instance)) {
-                $pdo_options[PDO::ATTR_ERRMODE] = PDO::ERRMODE_EXCEPTION;
-                self::$instance = new PDO('mysql:host='. $GLOBALS['config']['sql']['host'] .';dbname='. $GLOBALS['config']['sql']['dbname'], $GLOBALS['config']['sql']['name'], $GLOBALS['config']['sql']['password'], $pdo_options);
-            }
-            return self::$instance;
+
+    class db {
+        public static function init() {
+            $mongo = new MongoClient("mongodb://localhost:27017");
+            return $mongo->simon_base;
         }
     }
 

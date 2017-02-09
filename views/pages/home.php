@@ -7,5 +7,5 @@
 <?php endif; ?>
 
 <?php if (isset($GLOBALS['config']['landing']['action']) && $GLOBALS['config']['sql']['host'] == 'localhost') : ?>
-<!--    <br><pre><?php var_dump($GLOBALS['config']); ?></pre><br>-->
+    <!-- <br><pre><?php var_dump($GLOBALS['config']); ?></pre><br> -->
 <?php endif; ?>

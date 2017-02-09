@@ -2,6 +2,8 @@
     class UsersController {
 
         public function login() {
+            user::findByName("test99");
+
             if (isset($_POST['user'])) {
                 $user = User::findByName($_POST['user']['name']);
 
