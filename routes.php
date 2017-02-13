@@ -9,11 +9,6 @@
                 $controller = new PagesController();
             break;
 
-            case 'posts':
-                require_once('models/post.php');
-                $controller = new PostsController();
-            break;
-
             case 'users':
                 require_once('models/user.php');
                 $controller = new UsersController();
@@ -26,16 +21,10 @@
 
     // All valid conntrollers and actions
     $controllers = [
-        
+
         'pages' => [
-            'home', 
+            'home',
             'error'
-        ],
-        
-        'posts' => [
-            'index', 
-            'show',
-            'create'
         ],
         
         'users' => [

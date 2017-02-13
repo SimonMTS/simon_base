@@ -23,7 +23,6 @@
 
         <header id="head">
             <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">Home</a>
-            <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>posts/index">Posts</a>
 
             <?php if (!isset($_SESSION['user']['_id'])) : ?>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/create">Register</a>
