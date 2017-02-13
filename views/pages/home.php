@@ -6,6 +6,6 @@
     <br><pre><?php var_dump($_SESSION); ?></pre>
 <?php endif; ?>
 
-<?php if (isset($GLOBALS['config']['landing']['action']) && $GLOBALS['config']['sql']['host'] == 'localhost') : ?>
-    <!-- <br><pre><?php var_dump($GLOBALS['config']); ?></pre><br> -->
+<?php if (isset($GLOBALS['config']['landing']['action'])) : ?>
+    <br><pre><?php var_dump($GLOBALS['config']); ?></pre><br>
 <?php endif; ?>
