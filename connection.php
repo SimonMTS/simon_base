@@ -3,6 +3,7 @@
     class db {
         public static function init() {
             $mongo = new MongoClient("mongodb://localhost:27017");
+
             return $mongo->simon_base;
         }
     }

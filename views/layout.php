@@ -20,28 +20,28 @@
                 <a href="<?= $GLOBALS['config']['base_url'] ?>" class="float-right">options</a>
             </div>
         <?php endif; ?>
-        
+
         <header id="head">
             <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">Home</a>
             <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>posts/index">Posts</a>
-            
-            <?php if (!isset($_SESSION['user']['id'])) : ?>
+
+            <?php if (!isset($_SESSION['user']['_id'])) : ?>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/create">Register</a>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/login">Login</a>
             <?php else : ?>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/logout">Logout(<?=$_SESSION['user']['name'] ?>)</a>
-                <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/edit/<?=$_SESSION['user']['id'] ?>">Edit</a>
+                <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/edit/<?=$_SESSION['user']['_id'] ?>">Edit</a>
             <?php endif; ?>
         </header>
-        
+
         <div id="main-body">
             <div class="inner-body">
                 <?php require_once('routes.php'); ?>
             </div>
         </div>
-        
+
         <footer id="foot">
-            By Simon Striewold
+            By Simon Striekwold.
         </footer>
     </body>
 <html>

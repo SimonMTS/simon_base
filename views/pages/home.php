@@ -2,8 +2,8 @@
 
 <p>You successfully landed on the home page.</p><br>
 
-<?php if (isset($_SESSION['user']['id'])) : ?>
-    <!-- <br><pre><?php var_dump($_SESSION); ?></pre> -->
+<?php if (isset($_SESSION['user']['_id'])) : ?>
+    <br><pre><?php var_dump($_SESSION); ?></pre>
 <?php endif; ?>
 
 <?php if (isset($GLOBALS['config']['landing']['action']) && $GLOBALS['config']['sql']['host'] == 'localhost') : ?>

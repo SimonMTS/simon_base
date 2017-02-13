@@ -10,6 +10,7 @@
         <option value="parent">Parent</option>
         <option value="student">Student</option>
         <option value="teacher">Teacher</option>
+        <option value="admin">Admin</option>
     </select>
     <br>
     <input class="btn" type="submit" value="Register">

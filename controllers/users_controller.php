@@ -2,7 +2,6 @@
     class UsersController {
 
         public function login() {
-            user::findByName("test99");
 
             if (isset($_POST['user'])) {
                 $user = User::findByName($_POST['user']['name']);
@@ -11,7 +10,7 @@
                     if ($user->password === $_POST['user']['password']) {
 
                         $_SESSION['user'] = [
-                            'id' => $user->id,
+                            '_id' => $user->_id,
                             'name' => $user->name,
                             'password' => $user->password,
                             'role' => $user->role,
@@ -37,14 +36,11 @@
         public function create() {
             if (
                 isset($_POST['user']) && isset($_POST['user']['name']) && isset($_POST['user']['password']) && isset($_POST['user']['role'])
-                && $_POST['user']['name'] ==! '' && $_POST['user']['password'] ==! '' && $_POST['user']['role'] ==! ''
+                && !empty($_POST['user']['name']) && !empty($_POST['user']['password']) && !empty($_POST['user']['role'])
                 && $_POST['user']['password'] == $_POST['user']['passwordrep']
             ) {
                 if (!user::findByName($_POST['user']['name']) && user::role($_POST['user']['role']) != false) {
-                    $id = str_replace('.', '', uniqid('', true));
-                    $user = new User($id, $_POST['user']['name'], $_POST['user']['password'], user::role($_POST['user']['role']));
-
-                    echo'<pre>';var_dump($user);exit;
+                    $user = new User(new MongoId(), $_POST['user']['name'], $_POST['user']['password'], user::role($_POST['user']['role']));
 
                     if ($user->save()) {
                         Redirect::to($GLOBALS['config']['base_url']);
@@ -61,7 +57,7 @@
 
         public function edit() {
             $id = $_GET['var1'];
-            $user = User::find($id);
+            $user = User::find(new MongoId($id));
 
             if ($user !== false && ($user->name == $_SESSION['user']['name'] && $user->password == $_SESSION['user']['password'])) {
                 if (
@@ -74,7 +70,7 @@
                     $user->role = user::role($_POST['user']['role']);
 
                     if ($user->save()) {
-                        require_once('views/users/edit.php');
+                        Redirect::to($GLOBALS['config']['base_url'] . "users/edit/" . $user->_id);
                     } else {
                         require_once('views/users/edit.php');
                     }

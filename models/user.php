@@ -1,12 +1,12 @@
 <?php
     class User {
-        public $id;
+        public $_id;
         public $name;
         public $password;
         public $role;
 
-        public function __construct($id, $name, $password, $role) {
-            $this->id = $id;
+        public function __construct($_id, $name, $password, $role) {
+            $this->_id = $_id;
             $this->name = $name;
             $this->password = $password;
             $this->role = $role;
@@ -36,27 +36,26 @@
 
         public static function all() {
             $list = [];
-            $db = Db::getInstance();
-            $req = $db->query('SELECT * FROM user');
+            $db = db::init();
+
+            $col = $db->user;
+            $result = $col->findOne();
 
             foreach($req->fetchAll() as $user) {
-                $list[] = new User($user['id'], $user['name'], $user['password'], $user['role']);
+                $list[] = new User($user['_id'], $user['name'], $user['password'], $user['role']);
             }
 
             return $list;
         }
 
-        public static function find($id) {
-            $db = Db::getInstance();
+        public static function find($_id) {
+            $db = db::init();
 
-            $id = $id;
-            $req = $db->prepare('SELECT * FROM user WHERE id = :id');
+            $col = $db->user;
+            $result = $col->findOne( [ '_id' => $_id ] );
 
-            $req->execute(array('id' => $id));
-            $post = $req->fetch();
-
-            if (isset($post['id']) && isset($post['name']) && isset($post['password']) && isset($post['role'])) {
-                return new User($post['id'], $post['name'], $post['password'], $post['role']);
+            if (isset($result['_id']) && isset($result['name']) && isset($result['password']) && isset($result['role'])) {
+                return new User($result['_id'], $result['name'], $result['password'], $result['role']);
             } else {
                 return false;
             }
@@ -65,28 +64,12 @@
 
         public static function findByName($name) {
             $db = db::init();
-            
+
             $col = $db->user;
+            $result = $col->findOne( [ 'name' => $name ] );
 
-            $result = $col->find( [ 'name' => $name ] );
-
-            $post = [];
-            foreach ($result as $doc) {
-                $post[] = $doc;
-            }
-            echo'<pre>';
-            var_dump($post);
-            exit;
-            //
-            // $db = Db::getInstance();
-            //
-            // $req = $db->prepare('SELECT * FROM user WHERE name = :name');
-            //
-            // $req->execute(['name' => $name]);
-            // $post = $req->fetch();
-
-            if (isset($post['id']) && isset($post['name']) && isset($post['password']) && isset($post['role'])) {
-                return new User($post['id'], $post['name'], $post['password'], $post['role']);
+            if (isset($result['_id']) && isset($result['name']) && isset($result['password']) && isset($result['role'])) {
+                return new User($result['_id'], $result['name'], $result['password'], $result['role']);
             } else {
                 return false;
             }
@@ -94,46 +77,45 @@
         }
 
         public function save() {
-            if (self::find($this->id) == false) {
-                $db = Db::getInstance();
+            if (self::find($this->_id) == false) {
+                $db = db::init();
 
-                $req = $db->prepare('INSERT INTO user (id, name, password, role) VALUES (:id, :name, :password, :role)');
+                $col = $db->user;
 
-                $succes = $req->execute([
-                    ':id' => $this->id,
-                    ':name' => $this->name,
-                    ':password' => $this->password,
-                    ':role' => $this->role
-                ]);
-
-                $_SESSION['user'] = [
-                    'id' => $this->id,
-                    'name' => $this->name,
-                    'password' => $this->password,
-                    'role' => $this->role,
+                $doc = [
+                    "_id" => $this->_id,
+                    "name" => $this->name,
+                    "password" => $this->password,
+                    "role" => $this->role
                 ];
 
-                return $succes;
+                $result = $col->insert($doc);
+
+                $_SESSION['user'] = $doc;
+
+                return true;
             } else {
-                $db = Db::getInstance();
+                $db = db::init();
 
-                $req = $db->prepare('UPDATE user SET name=:name, password=:password, role=:role WHERE id = :id');
+                $col = $db->user;
 
-                $succes = $req->execute([
-                    ':id' => $this->id,
-                    ':name' => $this->name,
-                    ':password' => $this->password,
-                    ':role' => $this->role
-                ]);
-
-                $_SESSION['user'] = [
-                    'id' => $this->id,
-                    'name' => $this->name,
-                    'password' => $this->password,
-                    'role' => $this->role,
+                $doc = [
+                    "_id" => $this->_id,
+                    "name" => $this->name,
+                    "password" => $this->password,
+                    "role" => $this->role
                 ];
 
-                return $succes;
+                $result = $col->update(
+                    ["_id" => $this->_id],
+                    [
+                        '$set' => $doc
+                    ]
+                );
+
+                $_SESSION['user'] = $doc;
+
+                return true;
             }
         }
     }
