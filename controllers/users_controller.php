@@ -81,6 +81,5 @@
                 return call('pages', 'error');
             }
         }
-
     }
 ?>
