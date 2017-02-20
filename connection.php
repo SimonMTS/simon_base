@@ -2,7 +2,7 @@
 
     class db {
         public static function init() {
-            $mongo = new MongoClient("mongodb://localhost:27017");
+            $mongo = new MongoClient($GLOBALS['config']['mongodb']);
 
             return $mongo->simon_base;
         }

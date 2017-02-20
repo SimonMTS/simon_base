@@ -22,8 +22,9 @@
         <?php endif; ?>
 
         <header id="head">
-            <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">Home</a>
-            <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">FAQ</a>
+            <img class="float-left header-img" src="<?= $GLOBALS['config']['base_url'] ?>assets/rainbow-icon.png">
+            <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">de Regenboog</a>
+            <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>/pages/faq">FAQ</a>
 
             <?php if (!isset($_SESSION['user']['_id'])) : ?>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/create">Register</a>

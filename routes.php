@@ -24,9 +24,10 @@
 
         'pages' => [
             'home',
+            'faq',
             'error'
         ],
-        
+
         'users' => [
             'login',
             'logout',

@@ -39,13 +39,9 @@
             $db = db::init();
 
             $col = $db->user;
-            $result = $col->findOne();
+            $result = $col->find();
 
-            foreach($req->fetchAll() as $user) {
-                $list[] = new User($user['_id'], $user['name'], $user['password'], $user['role']);
-            }
-
-            return $list;
+            return $result;
         }
 
         public static function find($_id) {
