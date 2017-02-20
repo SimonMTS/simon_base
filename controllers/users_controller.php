@@ -10,10 +10,16 @@
                     if ($user->password === $_POST['user']['password']) {
 
                         $_SESSION['user'] = [
-                            '_id' => $user->_id,
-                            'name' => $user->name,
-                            'password' => $user->password,
-                            'role' => $user->role,
+                            "_id" => $user->_id,
+                            "name" => $user->name,
+                            "password" => $user->password,
+                            "role" => $user->role,
+                            "firstname" => $user->firstname,
+                            "lastname" => $user->lastname,
+                            "age" => $user->age,
+                            "gender" => $user->gender,
+                            "class_code" => $user->class_code,
+                            "child_id" => $user->child_id
                         ];
 
                         Redirect::to($GLOBALS['config']['base_url']);
@@ -33,17 +39,60 @@
             Redirect::to($GLOBALS['config']['base_url']);
         }
 
-        public function create() {
-            if (
-                isset($_POST['user']) && isset($_POST['user']['name']) && isset($_POST['user']['password']) && isset($_POST['user']['role'])
-                && !empty($_POST['user']['name']) && !empty($_POST['user']['password']) && !empty($_POST['user']['role'])
-                && $_POST['user']['password'] == $_POST['user']['passwordrep']
-            ) {
-                if (!user::findByName($_POST['user']['name']) && user::role($_POST['user']['role']) != false) {
-                    $user = new User(new MongoId(), $_POST['user']['name'], $_POST['user']['password'], user::role($_POST['user']['role']));
+        public function overview() {
+            if ($_SESSION['user']['role'] > 1) {
+                $users = user::findByRole($_SESSION['user']['role']);
 
-                    if ($user->save()) {
-                        Redirect::to($GLOBALS['config']['base_url']);
+                require_once('views/users/overview.php');
+            } else {
+                return call('pages', 'error');
+            }
+        }
+
+        public function create() {
+            if (isset($_SESSION['user']['_id']) && $_SESSION['user']['role'] > 1) {
+                if (
+                    isset($_POST['user']) &&
+                    isset($_POST['user']['name']) && !empty($_POST['user']['name']) &&
+                    isset($_POST['user']['password']) && !empty($_POST['user']['password']) &&
+                    isset($_POST['user']['role']) && !empty($_POST['user']['role']) &&
+                    isset($_POST['user']['firstname']) && !empty($_POST['user']['firstname']) &&
+                    isset($_POST['user']['lastname']) && !empty($_POST['user']['lastname']) &&
+                    isset($_POST['user']['age']) && !empty($_POST['user']['age']) &&
+                    isset($_POST['user']['gender']) && !empty($_POST['user']['gender']) &&
+                    $_POST['user']['password'] == $_POST['user']['passwordrep']
+                ) {
+                    if (!user::findByName($_POST['user']['name']) && user::role($_POST['user']['role']) != false) {
+                        if (isset($_POST['user']['class_code']) && !empty($_POST['user']['class_code'])) {
+                            $class_code = $_POST['user']['class_code'];
+                        } else {
+                            $class_code = false;
+                        }
+
+                        if (isset($_POST['user']['child_id']) && !empty($_POST['user']['child_id'])) {
+                            $child_id = $_POST['user']['child_id'];
+                        } else {
+                            $child_id = false;
+                        }
+
+                        $user = new User(
+                            new MongoId(),
+                            $_POST['user']['name'],
+                            $_POST['user']['password'],
+                            user::role($_POST['user']['role']),
+                            $_POST['user']['firstname'],
+                            $_POST['user']['lastname'],
+                            $_POST['user']['age'],
+                            user::gender($_POST['user']['gender']),
+                            $class_code,
+                            $child_id
+                        );
+
+                        if ($user->save()) {
+                            Redirect::to($GLOBALS['config']['base_url']);
+                        } else {
+                            require_once('views/users/create.php');
+                        }
                     } else {
                         require_once('views/users/create.php');
                     }
@@ -51,7 +100,7 @@
                     require_once('views/users/create.php');
                 }
             } else {
-                require_once('views/users/create.php');
+                return call('pages', 'error');
             }
         }
 
@@ -59,24 +108,56 @@
             $id = $_GET['var1'];
             $user = User::find(new MongoId($id));
 
-            if ($user !== false && ($user->name == $_SESSION['user']['name'] && $user->password == $_SESSION['user']['password'])) {
+            if ($user !== false && (($user->_id == $_SESSION['user']['_id'] && $user->password == $_SESSION['user']['password']) || ($_SESSION['user']['role'] > $user->role))) {
                 if (
-                    isset($_POST['user']) && isset($_POST['user']['name']) && isset($_POST['user']['password']) && isset($_POST['user']['role'])
-                    && $_POST['user']['name'] ==! '' && $_POST['user']['password'] ==! '' && $_POST['user']['role'] ==! ''
-                    && user::role($_POST['user']['role']) != false
+                    isset($_POST['user']) &&
+                    isset($_POST['user']['name']) && !empty($_POST['user']['name']) &&
+                    isset($_POST['user']['role']) && !empty($_POST['user']['role']) &&
+                    isset($_POST['user']['firstname']) && !empty($_POST['user']['firstname']) &&
+                    isset($_POST['user']['lastname']) && !empty($_POST['user']['lastname']) &&
+                    isset($_POST['user']['age']) && !empty($_POST['user']['age']) &&
+                    isset($_POST['user']['gender']) && !empty($_POST['user']['gender']) &&
+                    ((isset($_POST['user']['password']) && !empty($_POST['user']['password']) && $_POST['user']['password'] == $_POST['user']['passwordrep']) ||
+                    (empty($_POST['user']['password']) && empty($_POST['user']['passwordrep'])))
                 ) {
                     $user->name = $_POST['user']['name'];
-                    $user->password = $_POST['user']['password'];
                     $user->role = user::role($_POST['user']['role']);
+                    $user->firstname = $_POST['user']['firstname'];
+                    $user->lastname = $_POST['user']['lastname'];
+                    $user->age = $_POST['user']['age'];
+                    $user->gender = user::gender($_POST['user']['gender']);
+
+                    if (isset($_POST['user']['class_code']) && !empty($_POST['user']['class_code'])) {
+                        $user->class_code = $_POST['user']['class_code'];
+                    }
+                    if (isset($_POST['user']['child_id']) && !empty($_POST['user']['child_id'])) {
+                        $user->child_id = $_POST['user']['child_id'];
+                    }
+
+                    if (!empty($_POST['user']['password'])) {
+                        $user->password = $_POST['user']['password'];
+                    }
 
                     if ($user->save()) {
                         Redirect::to($GLOBALS['config']['base_url'] . "users/edit/" . $user->_id);
                     } else {
-                        require_once('views/users/edit.php');
+                        return call('pages', 'error');
                     }
                 } else {
                     require_once('views/users/edit.php');
                 }
+            } else {
+                return call('pages', 'error');
+            }
+        }
+
+        public function delete() {
+            $id = $_GET['var1'];
+            $user = User::find(new MongoId($id));
+
+            if ($_SESSION['user']['role'] > $user->role) {
+                $user->delete();
+                Redirect::to($GLOBALS['config']['base_url'] . 'users/overview');
             } else {
                 return call('pages', 'error');
             }

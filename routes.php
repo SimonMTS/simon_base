@@ -26,12 +26,14 @@
             'home',
             'error'
         ],
-        
+
         'users' => [
             'login',
             'logout',
+            'overview',
             'create',
-            'edit'
+            'edit',
+            'delete'
         ]
     ];
 

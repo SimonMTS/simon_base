@@ -16,22 +16,24 @@
             <div id="admin">
                 <style> div#main-body { min-height: calc(100vh - 86px) !important; } </style>
                 <a class="float-left">Admin</a>
-                <a class="float-left">PHP version: <?=phpversion(); ?></a>
                 <a href="<?= $GLOBALS['config']['base_url'] ?>" class="float-right">options</a>
             </div>
         <?php endif; ?>
 
         <header id="head">
+            <span class="hamburg">Menu</span>
             <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">Home</a>
             <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">FAQ</a>
 
+            <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] > 1) : ?>
+                <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>users/overview">Users</a>
+            <?php endif; ?>
+
             <?php if (!isset($_SESSION['user']['_id'])) : ?>
-                <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/create">Register</a>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/login">Login</a>
             <?php else : ?>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/logout">Logout(<?=$_SESSION['user']['name'] ?>)</a>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/edit/<?=$_SESSION['user']['_id'] ?>">Portfolio</a>
-                <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">Users</a>
             <?php endif; ?>
         </header>
 

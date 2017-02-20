@@ -1,6 +1,6 @@
 <p>Hello there <?= $name; ?>!</p>
 
-<?php if (isset($_SESSION['user']['_id'])) : ?>
+<?php if (isset($_SESSION['user']['_id']) || true) : ?>
     <br><pre><?php var_dump($_SESSION); ?></pre>
 <?php endif; ?>
 
