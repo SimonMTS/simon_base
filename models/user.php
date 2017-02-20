@@ -159,11 +159,16 @@
             }
         }
 
-        public static function findByRole($number) {
+        public static function findByRole($number, $lt) {
             $db = db::init();
 
             $col = $db->user;
-            $result = $col->find( ["role" => ['$lt' => $number]] );
+
+            if (!$lt) {
+                $result = $col->find( ["role" => ['$lt' => $number]] );
+            } else {
+                $result = $col->find( ["role" => $number] );
+            }
 
             return $result;
         }

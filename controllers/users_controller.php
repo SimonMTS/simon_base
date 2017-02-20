@@ -41,7 +41,7 @@
 
         public function overview() {
             if ($_SESSION['user']['role'] > 1) {
-                $users = user::findByRole($_SESSION['user']['role']);
+                $users = user::findByRole($_SESSION['user']['role'], false);
 
                 require_once('views/users/overview.php');
             } else {
@@ -49,8 +49,14 @@
             }
         }
 
+        public function view() {
+            require_once('views/users/view.php');
+        }
+
         public function create() {
             if (isset($_SESSION['user']['_id']) && $_SESSION['user']['role'] > 1) {
+                $students = user::findByRole(2, true);
+
                 if (
                     isset($_POST['user']) &&
                     isset($_POST['user']['name']) && !empty($_POST['user']['name']) &&
@@ -91,7 +97,7 @@
                         if ($user->save()) {
                             Redirect::to($GLOBALS['config']['base_url']);
                         } else {
-                            require_once('views/users/create.php');
+                            return call('pages', 'error');
                         }
                     } else {
                         require_once('views/users/create.php');
@@ -107,6 +113,7 @@
         public function edit() {
             $id = $_GET['var1'];
             $user = User::find(new MongoId($id));
+            $students = user::findByRole(2, true);
 
             if ($user !== false && (($user->_id == $_SESSION['user']['_id'] && $user->password == $_SESSION['user']['password']) || ($_SESSION['user']['role'] > $user->role))) {
                 if (

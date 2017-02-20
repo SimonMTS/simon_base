@@ -33,7 +33,7 @@
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/login">Login</a>
             <?php else : ?>
                 <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/logout">Logout(<?=$_SESSION['user']['name'] ?>)</a>
-                <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/edit/<?=$_SESSION['user']['_id'] ?>">Portfolio</a>
+                <a class="float-right" href="<?= $GLOBALS['config']['base_url'] ?>users/view">Portfolio</a>
             <?php endif; ?>
         </header>
 

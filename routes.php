@@ -31,6 +31,7 @@
             'login',
             'logout',
             'overview',
+            'view',
             'create',
             'edit',
             'delete'
