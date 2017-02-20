@@ -24,6 +24,7 @@
 
         'pages' => [
             'home',
+            'faq',
             'error'
         ],
 
