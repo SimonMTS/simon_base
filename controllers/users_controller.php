@@ -50,6 +50,8 @@
         }
 
         public function view() {
+            $docs = docs::all();
+
             require_once('views/users/view.php');
         }
 
