@@ -11,11 +11,12 @@
 
             case 'users':
                 require_once('models/user.php');
-                require_once('models/docs.php');
+                require_once('models/doc.php');
                 $controller = new UsersController();
             break;
 
             case 'docs':
+                require_once('models/doc.php');
                 $controller = new DocsController();
             break;
         }
@@ -44,8 +45,7 @@
 
         'docs' => [
             'create',
-            'delete',
-            'view'
+            'delete'
         ]
     ];
 

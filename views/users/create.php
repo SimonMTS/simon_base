@@ -10,8 +10,10 @@
             <option disabled selected>User type</option>
             <option value="parent">Parent</option>
             <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-            <option value="admin">Admin</option>
+            <?php if ($_SESSION['user']['role'] == 777) : ?>
+                <option value="teacher">Teacher</option>
+                <option value="admin">Admin</option>
+        <?php endif; ?>
         </select>
         <br>
         <input class="form" type="text" placeholder="Firstname" name="user[firstname]" required>
@@ -26,10 +28,10 @@
             <option value="female">Female</option>
         </select>
         <br>
-        <input class="form" type="text" placeholder="Class code (student only)" name="user[class_code]">
+        <input class="form" type="text" placeholder="Class code (student and teacher only)" name="user[class_code]">
         <br>
         <select class="form" name="user[child_id]">
-            <option disabled selected>parent of (parent only)</option>
+            <option disabled selected>Child (parent only)</option>
             <?php foreach ($students as $student) { ?>
                 <option value="<?=$student['_id'] ?>"><?=$student['name'] ?></option>
             <?php } ?>

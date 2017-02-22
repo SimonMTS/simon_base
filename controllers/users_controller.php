@@ -7,7 +7,7 @@
                 $user = User::findByName($_POST['user']['name']);
 
                 if ($user !== false) {
-                    if ($user->password === $_POST['user']['password']) {
+                    if ($user->password === hash('sha512', $_POST['user']['password'])) {
 
                         $_SESSION['user'] = [
                             "_id" => $user->_id,
@@ -50,13 +50,32 @@
         }
 
         public function view() {
-            $docs = docs::all();
+            switch ($_SESSION['user']['role']) {
+                case 1: // parent
+                    $docs = doc::findByUser($_SESSION['user']['child_id']);
 
-            require_once('views/users/view.php');
+                    require_once('views/users/view.php');
+                    break;
+                case 2: // student
+                    $docs = doc::findByUser($_SESSION['user']['_id']);
+
+                    require_once('views/users/view.php');
+                    break;
+                case 3: // teacher
+                    $docs = doc::findByClass($_SESSION['user']['class_code']);
+
+                    require_once('views/users/view.php');
+                    break;
+                case 777: // admin
+                    $docs = doc::all();
+
+                    require_once('views/users/view.php');
+                    break;
+            }
         }
 
         public function create() {
-            if (isset($_SESSION['user']['_id']) && $_SESSION['user']['role'] > 1) {
+            if (isset($_SESSION['user']['_id']) && $_SESSION['user']['role'] > 2) {
                 $students = user::findByRole(2, true);
 
                 if (
@@ -86,7 +105,7 @@
                         $user = new User(
                             new MongoId(),
                             $_POST['user']['name'],
-                            $_POST['user']['password'],
+                            hash('sha512', $_POST['user']['password']),
                             user::role($_POST['user']['role']),
                             $_POST['user']['firstname'],
                             $_POST['user']['lastname'],
@@ -121,7 +140,6 @@
                 if (
                     isset($_POST['user']) &&
                     isset($_POST['user']['name']) && !empty($_POST['user']['name']) &&
-                    isset($_POST['user']['role']) && !empty($_POST['user']['role']) &&
                     isset($_POST['user']['firstname']) && !empty($_POST['user']['firstname']) &&
                     isset($_POST['user']['lastname']) && !empty($_POST['user']['lastname']) &&
                     isset($_POST['user']['age']) && !empty($_POST['user']['age']) &&
@@ -130,7 +148,6 @@
                     (empty($_POST['user']['password']) && empty($_POST['user']['passwordrep'])))
                 ) {
                     $user->name = $_POST['user']['name'];
-                    $user->role = user::role($_POST['user']['role']);
                     $user->firstname = $_POST['user']['firstname'];
                     $user->lastname = $_POST['user']['lastname'];
                     $user->age = $_POST['user']['age'];

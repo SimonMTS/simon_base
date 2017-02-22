@@ -1,0 +1,6 @@
+{"_id":{"$oid":"58ad952c2cd0e91c2a00003f"},"user_id":{"$oid":"58ad92d32cd0e9202000002d"},"path":"files/58ad952c2cd0e91c2a00003f.txt","name":"test doc student1.txt","class_code":"tooc41a"}
+{"_id":{"$oid":"58ad95412cd0e91c2a000040"},"user_id":{"$oid":"58ad92f12cd0e9202000002e"},"path":"files/58ad95412cd0e91c2a000040.txt","name":"test doc student2.txt","class_code":"tooc41a"}
+{"_id":{"$oid":"58ad954e2cd0e98428000029"},"user_id":{"$oid":"58ad93122cd0e9202000002f"},"path":"files/58ad954e2cd0e98428000029.txt","name":"test doc student3.txt","class_code":"tooc41a"}
+{"_id":{"$oid":"58ad95632cd0e91c2a000041"},"user_id":{"$oid":"58ad932d2cd0e92020000030"},"path":"files/58ad95632cd0e91c2a000041.txt","name":"test doc student4.txt","class_code":"tooc42a"}
+{"_id":{"$oid":"58ad957c2cd0e9842800002a"},"user_id":{"$oid":"58ad93502cd0e92020000031"},"path":"files/58ad957c2cd0e9842800002a.txt","name":"test doc student5.txt","class_code":"tooc42a"}
+{"_id":{"$oid":"58ad958c2cd0e91c2a000042"},"user_id":{"$oid":"58ad93842cd0e92020000032"},"path":"files/58ad958c2cd0e91c2a000042.txt","name":"test doc student6.txt","class_code":"tooc42a"}
