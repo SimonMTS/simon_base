@@ -4,7 +4,7 @@
         public static function init() {
             $mongo = new MongoClient($GLOBALS['config']['mongodb']);
 
-            return $mongo->simon_base;
+            return $mongo->tovuti;
         }
     }
 

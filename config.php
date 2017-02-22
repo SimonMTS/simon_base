@@ -6,8 +6,7 @@
             'action' => 'home'
         ],
 
-        'base_url' => 'http://localhost/simon_base/',
-        'mongodb' => "mongodb://localhost:27017",
-//        'base_url' => 'https://simon.aoweb.nl/',
+        'base_url' => 'http://localhost/tovuti/',
+        'mongodb' => "mongodb://localhost:27017"
     ];
 ?>

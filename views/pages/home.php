@@ -1,9 +1,5 @@
-<p>Hello there <?= $name; ?>!</p>
-
-<?php if (isset($_SESSION['user']['_id']) || true) : ?>
-    <br><pre><?php var_dump($_SESSION); ?></pre>
-<?php endif; ?>
-
-<?php if (isset($GLOBALS['config']['landing']['action'])) : ?>
-    <br><pre><?php var_dump($GLOBALS['config']); ?></pre><br>
-<?php endif; ?>
+<p>Hallo <?= $name; ?>!</p>
+<br>
+<p>De regenboog is een middelbare school waar meer dan 400 leerlingen bezig zijn met
+een vmbo, havo, of vwo-diploma.<br> De school is gevestigd op de Schoolstraat 1,
+Arnhem en is opgericht in 1970.</p>

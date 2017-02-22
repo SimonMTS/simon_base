@@ -6,7 +6,7 @@
             if (isset($_SESSION['user']['name'])) {
                 $name = $_SESSION['user']['name'];
             } else {
-                $name = 'user';
+                $name = 'bezoeker';
             }
 
             require_once('views/pages/home.php');
