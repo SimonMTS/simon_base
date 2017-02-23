@@ -9,7 +9,7 @@
         <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
         <link rel="shortcut icon" href="favicon.ico" />
 		<link rel="icon" href="<?= $GLOBALS['config']['base_url'] ?>assets/favicon.ico" type="image/x-icon" />
-        <title>The Rainbow</title>
+        <title>de Regenboog</title>
     </head>
     <body>
         <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] == 777) : ?>
@@ -20,12 +20,13 @@
         <?php endif; ?>
 
         <header id="head">
+            <img class="float-left header-img" src="<?= $GLOBALS['config']['base_url'] ?>assets/rainbow-icon.png">
             <span class="hamburg">Menu</span>
             <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>">Home</a>
             <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>pages/faq">FAQ</a>
 
             <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] > 1) : ?>
-                <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>users/overview">Users</a>
+                <a class="float-left" href="<?= $GLOBALS['config']['base_url'] ?>users/overview">Gebruikers</a>
             <?php endif; ?>
 
             <?php if (!isset($_SESSION['user']['_id'])) : ?>

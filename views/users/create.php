@@ -1,17 +1,17 @@
 <form action="" method="post">
     <div class="login-form">
-        <input class="form " type="text" placeholder="Username" name="user[name]" autofocus required>
+        <input class="form " type="text" placeholder="Gebruikersnaam" name="user[name]" autofocus required>
         <br>
-        <input class="form" type="text" placeholder="Password" name="user[password]" required>
+        <input class="form" type="password" placeholder="Wachtwoord" name="user[password]" required>
         <br>
-        <input class="form" type="text" placeholder="Repeat password" name="user[passwordrep]" required>
+        <input class="form" type="password" placeholder="Wachtwoord herhalen" name="user[passwordrep]" required>
         <br>
         <select class="form" name="user[role]" required>
             <option disabled selected>User type</option>
-            <option value="parent">Parent</option>
+            <option value="parent">Ouder</option>
             <option value="student">Student</option>
             <?php if ($_SESSION['user']['role'] == 777) : ?>
-                <option value="teacher">Teacher</option>
+                <option value="teacher">Leeraar</option>
                 <option value="admin">Admin</option>
         <?php endif; ?>
         </select>
